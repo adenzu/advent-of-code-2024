@@ -5,5 +5,5 @@ a =. (#~ -.@(0&e.@>)) a                     NB. remove reports including no chan
 a =. (#~ ([: 1&=@#@:~. *)@>) a              NB. remove reports with both increasing and decreasing levels
 a =. (#~ ([: (1&<: *./@:*. 3&>:) |)@>) a    NB. remove reports with change in level greater than 3 and less than 1
 result =. # a
-
+ 
 result
