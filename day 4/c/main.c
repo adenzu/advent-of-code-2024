@@ -91,7 +91,27 @@ int part1()
     {
         for (int j = 0; j < INPUT_WIDTH; j++)
         {
-            if (find(needle, i, j))
+            result += find(needle, i, j);
+        }
+    }
+
+    return result;
+}
+
+int part2()
+{
+    load_input();
+
+    int result = 0;
+
+    for (int i = 1; i < INPUT_HEIGHT - 1; i++)
+    {
+        for (int j = 1; j < INPUT_WIDTH - 1; j++)
+        {
+            if (
+                input[i][j] == 'A' &&
+                ((input[i - 1][j - 1] == 'M' && input[i + 1][j + 1] == 'S') || (input[i - 1][j - 1] == 'S' && input[i + 1][j + 1] == 'M')) &&
+                ((input[i - 1][j + 1] == 'M' && input[i + 1][j - 1] == 'S') || (input[i - 1][j + 1] == 'S' && input[i + 1][j - 1] == 'M')))
             {
                 result++;
             }
@@ -100,8 +120,6 @@ int part1()
 
     return result;
 }
-
-int part2() { return 0; }
 
 int main(int argc, char *argv[])
 {
