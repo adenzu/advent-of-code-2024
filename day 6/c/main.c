@@ -10,9 +10,16 @@
 #define SPACE '.'
 #define VISITED 'X'
 
+#define UP 0b0001
+#define RIGHT 0b0010
+#define DOWN 0b0100
+#define LEFT 0b1000
+
 char map[MAP_SIZE][MAP_SIZE];
 int guard_x = -1,
     guard_y = -1;
+
+char hits[MAP_SIZE][MAP_SIZE];
 
 void load_input()
 {
@@ -127,7 +134,111 @@ int part1()
     return result;
 }
 
-int part2() { return 0; }
+int part2()
+{
+    load_input();
+
+    int result = 0;
+
+    int x = guard_x,
+        y = guard_y;
+    while (1)
+    {
+        while (0 <= y - 1 && map[y - 1][x] != WALL)
+        {
+            for (int i = x + 1; i < MAP_SIZE; i++)
+            {
+                if (hits[y][i] & RIGHT)
+                {
+                    result++;
+                    break;
+                }
+            }
+            map[y - 1][x] = GUARD;
+            map[y][x] = VISITED;
+            y--;
+        }
+        if (y == 0)
+        {
+            break;
+        }
+        if (map[y - 1][x] == WALL)
+        {
+            hits[y - 1][x] |= UP;
+        }
+
+        while (x + 1 < MAP_SIZE && map[y][x + 1] != WALL)
+        {
+            for (int i = y + 1; i < MAP_SIZE; i++)
+            {
+                if (hits[i][x] & DOWN)
+                {
+                    result++;
+                    break;
+                }
+            }
+            map[y][x + 1] = GUARD;
+            map[y][x] = VISITED;
+            x++;
+        }
+        if (x == MAP_SIZE - 1)
+        {
+            break;
+        }
+        if (map[y][x + 1] == WALL)
+        {
+            hits[y][x + 1] |= RIGHT;
+        }
+
+        while (y + 1 < MAP_SIZE && map[y + 1][x] != WALL)
+        {
+            for (int i = x - 1; i >= 0; i--)
+            {
+                if (hits[y][i] & LEFT)
+                {
+                    result++;
+                    break;
+                }
+            }
+            map[y + 1][x] = GUARD;
+            map[y][x] = VISITED;
+            y++;
+        }
+        if (y == MAP_SIZE - 1)
+        {
+            break;
+        }
+        if (map[y + 1][x] == WALL)
+        {
+            hits[y + 1][x] |= DOWN;
+        }
+
+        while (0 <= x - 1 && map[y][x - 1] != WALL)
+        {
+            for (int i = y - 1; i >= 0; i--)
+            {
+                if (hits[i][x] & UP)
+                {
+                    result++;
+                    break;
+                }
+            }
+            map[y][x - 1] = GUARD;
+            map[y][x] = VISITED;
+            x--;
+        }
+        if (x == 0)
+        {
+            break;
+        }
+        if (map[y][x - 1] == WALL)
+        {
+            hits[y][x - 1] |= LEFT;
+        }
+    }
+
+    return result;
+}
 
 int main(int argc, char *argv[])
 {
