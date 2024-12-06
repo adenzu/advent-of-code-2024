@@ -15,11 +15,11 @@ int main(int argc, char *argv[])
 
     if (strcmp(argv[1], "part1") == 0)
     {
-        return part1();
+        printf("%d\n", part1());
     }
     else if (strcmp(argv[1], "part2") == 0)
     {
-        return part2();
+        printf("%d\n", part2());
     }
     else
     {
